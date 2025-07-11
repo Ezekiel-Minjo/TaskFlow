@@ -1,5 +1,6 @@
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
+import { ZiggyVue } from "ziggy-js"; // ✅ Add this
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/app.css";
 import "./bootstrap";
@@ -12,6 +13,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(ZiggyVue) // ✅ Register ZiggyVue globally
             .mount(el);
     },
 });
