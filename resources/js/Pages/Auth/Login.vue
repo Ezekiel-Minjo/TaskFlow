@@ -1,5 +1,5 @@
 <script setup>
-// import route from 'ziggy-js';
+// import route from "ziggy-js";
 import Checkbox from "@/Components/Checkbox.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
