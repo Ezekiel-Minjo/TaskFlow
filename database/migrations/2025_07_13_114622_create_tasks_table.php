@@ -5,22 +5,19 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up(): void
-    {
+    public function up() {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('assigned_by')->constrained('users')->onDelete('cascade');
-            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
-            $table->dateTime('deadline');
+            $table->unsignedBigInteger('user_id');
+            $table->enum('status', ['Pending', 'In Progress', 'Completed'])->default('Pending');
+            $table->date('deadline');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
-
-    public function down(): void
-    {
+    public function down() {
         Schema::dropIfExists('tasks');
     }
 };
