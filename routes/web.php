@@ -1,5 +1,6 @@
 <?php
-
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('/test-email', function () {
+    $task = \App\Models\Task::create([
+        'title' => 'Test Task',
+        'user_id' => 1,
+        'deadline' => '2025-07-15',
+    ]);
+    \Illuminate\Support\Facades\Mail::to('test@example.com')->send(new \App\Mail\TaskAssigned($task));
+    return 'Email sent!';
 });
 
 require __DIR__.'/auth.php';
