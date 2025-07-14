@@ -33,12 +33,43 @@ const showingNavigationDropdown = ref(false);
                             <div
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
                             >
-                                <NavLink
-                                    :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
-                                >
-                                    Dashboard
-                                </NavLink>
+                                <!-- Admin Navigation -->
+                                <template v-if="$page.props.auth.user.role === 'admin'">
+                                    <NavLink
+                                        :href="route('admin.dashboard')"
+                                        :active="route().current('admin.dashboard')"
+                                    >
+                                        Dashboard
+                                    </NavLink>
+                                    <NavLink
+                                        :href="route('admin.users')"
+                                        :active="route().current('admin.users')"
+                                    >
+                                        Manage Users
+                                    </NavLink>
+                                    <NavLink
+                                        :href="route('admin.tasks')"
+                                        :active="route().current('admin.tasks')"
+                                    >
+                                        Manage Tasks
+                                    </NavLink>
+                                </template>
+                                
+                                <!-- User Navigation -->
+                                <template v-else>
+                                    <NavLink
+                                        :href="route('dashboard')"
+                                        :active="route().current('dashboard')"
+                                    >
+                                        Dashboard
+                                    </NavLink>
+                                    <NavLink
+                                        :href="route('user.tasks')"
+                                        :active="route().current('user.tasks')"
+                                    >
+                                        My Tasks
+                                    </NavLink>
+                                </template>
                             </div>
                         </div>
 
@@ -140,12 +171,43 @@ const showingNavigationDropdown = ref(false);
                     class="sm:hidden"
                 >
                     <div class="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
+                        <!-- Admin Mobile Navigation -->
+                        <template v-if="$page.props.auth.user.role === 'admin'">
+                            <ResponsiveNavLink
+                                :href="route('admin.dashboard')"
+                                :active="route().current('admin.dashboard')"
+                            >
+                                Dashboard
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('admin.users')"
+                                :active="route().current('admin.users')"
+                            >
+                                Manage Users
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('admin.tasks')"
+                                :active="route().current('admin.tasks')"
+                            >
+                                Manage Tasks
+                            </ResponsiveNavLink>
+                        </template>
+                        
+                        <!-- User Mobile Navigation -->
+                        <template v-else>
+                            <ResponsiveNavLink
+                                :href="route('dashboard')"
+                                :active="route().current('dashboard')"
+                            >
+                                Dashboard
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('user.tasks')"
+                                :active="route().current('user.tasks')"
+                            >
+                                My Tasks
+                            </ResponsiveNavLink>
+                        </template>
                     </div>
 
                     <!-- Responsive Settings Options -->

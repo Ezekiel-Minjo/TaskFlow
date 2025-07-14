@@ -22,10 +22,26 @@ Route::get('/dashboard', function () {
 Route::get('/', fn() => Inertia::render('Welcome'))->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/admin/dashboard', fn() => Inertia::render('Admin/Dashboard'))->middleware('admin')->name('admin.dashboard');
-    Route::get('/admin/users', fn() => Inertia::render('Admin/Users'))->middleware('admin')->name('admin.users');
-    Route::get('/admin/tasks', fn() => Inertia::render('Admin/Tasks'))->middleware('admin')->name('admin.tasks');
-    Route::get('/user/tasks', fn() => Inertia::render('User/Tasks'))->name('user.tasks');
+    // Admin routes
+    Route::middleware('admin')->group(function () {
+        Route::get('/admin/dashboard', fn() => Inertia::render('Admin/Dashboard'))->name('admin.dashboard');
+        
+        // User management routes
+        Route::get('/admin/users', [App\Http\Controllers\UserController::class, 'index'])->name('admin.users');
+        Route::post('/admin/users', [App\Http\Controllers\UserController::class, 'store'])->name('admin.users.store');
+        Route::put('/admin/users/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
+        Route::delete('/admin/users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('admin.users.destroy');
+        
+        // Task management routes
+        Route::get('/admin/tasks', [App\Http\Controllers\TaskController::class, 'adminIndex'])->name('admin.tasks');
+        Route::post('/admin/tasks', [App\Http\Controllers\TaskController::class, 'store'])->name('admin.tasks.store');
+        Route::put('/admin/tasks/{task}', [App\Http\Controllers\TaskController::class, 'update'])->name('admin.tasks.update');
+        Route::delete('/admin/tasks/{task}', [App\Http\Controllers\TaskController::class, 'destroy'])->name('admin.tasks.destroy');
+    });
+    
+    // User routes
+    Route::get('/user/tasks', [App\Http\Controllers\TaskController::class, 'userIndex'])->name('user.tasks');
+    Route::put('/user/tasks/{task}/status', [App\Http\Controllers\TaskController::class, 'updateStatus'])->name('user.tasks.updateStatus');
 });
 
 Route::middleware('auth')->group(function () {

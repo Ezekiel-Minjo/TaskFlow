@@ -10,4 +10,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable {
     protected $fillable = ['name', 'email', 'password', 'role'];
     protected $hidden = ['password', 'remember_token'];
+    
+    public function tasks() {
+        return $this->hasMany(Task::class);
+    }
 }
